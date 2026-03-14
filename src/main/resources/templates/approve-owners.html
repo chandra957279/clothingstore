@@ -1,0 +1,22 @@
+<h2>Owner Approval</h2>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="owner : ${owners}">
+        <td th:text="${owner.name}"></td>
+        <td th:text="${owner.email}"></td>
+        <td th:text="${owner.approved}"></td>
+        <td>
+            <a th:if="${!owner.approved}"
+               th:href="@{'/admin/approve/' + ${owner.id}}">
+               Approve
+            </a>
+        </td>
+    </tr>
+</table>
