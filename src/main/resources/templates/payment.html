@@ -2,42 +2,79 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Payment</title>
+
+<title>Checkout</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#f8f9fa;
+}
+
+.product-img{
+height:50px;
+width:50px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.payment-card{
+border-radius:10px;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container mt-4">
 
-<h2 class="mb-4">Checkout</h2>
+<h2 class="mb-4">🧾 Checkout</h2>
 
-<div class="row">
+<div class="row g-4">
 
 <!-- ORDER SUMMARY -->
 
-<div class="col-md-7">
+<div class="col-lg-7">
 
-<h4>Order Summary</h4>
+<h4 class="mb-3">Order Summary</h4>
 
-<table class="table table-bordered">
+<div class="table-responsive">
+
+<table class="table table-bordered text-center align-middle">
 
 <thead class="table-dark">
+
 <tr>
 <th>Product</th>
 <th>Price</th>
-<th>Quantity</th>
+<th>Qty</th>
 <th>Total</th>
 </tr>
+
 </thead>
 
 <tbody>
 
 <tr th:each="item : ${items}">
 
-<td th:text="${item.product.id}"></td>
+<td>
+
+<div class="d-flex align-items-center gap-2 justify-content-center">
+
+<img th:src="@{${item.product.imageUrl}}" class="product-img">
+
+<span th:text="${item.product.name}"></span>
+
+</div>
+
+</td>
 
 <td>
 ₹ <span th:text="${item.price}"></span>
@@ -57,16 +94,18 @@
 
 </div>
 
+</div>
+
 
 <!-- PAYMENT OPTIONS -->
 
-<div class="col-md-5">
+<div class="col-lg-5">
 
-<div class="card shadow">
+<div class="card shadow payment-card">
 
 <div class="card-body">
 
-<h5 class="card-title">Payment Method</h5>
+<h5 class="card-title mb-3">Payment Method</h5>
 
 <form th:action="@{/payment/process}" method="post">
 
@@ -75,10 +114,10 @@
 <div class="form-check">
 
 <input class="form-check-input"
-       type="radio"
-       name="method"
-       value="COD"
-       checked>
+type="radio"
+name="method"
+value="COD"
+checked>
 
 <label class="form-check-label">
 Cash On Delivery
@@ -89,20 +128,23 @@ Cash On Delivery
 <div class="form-check mt-2">
 
 <input class="form-check-input"
-       type="radio"
-       name="method"
-       value="ONLINE">
+type="radio"
+name="method"
+value="ONLINE">
 
 <label class="form-check-label">
-Online Payment
+Online Payment (Razorpay)
 </label>
 
 </div>
 
 <hr>
 
-<h5>
-Total: ₹ <span th:text="${order.totalAmount}"></span>
+<h5 class="text-success fw-bold">
+
+Total: ₹
+<span th:text="${order.totalAmount}"></span>
+
 </h5>
 
 <button class="btn btn-success w-100 mt-3">
@@ -120,6 +162,8 @@ Confirm Payment
 </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
