@@ -1,12 +1,10 @@
 package com.chandrashekhar.clothingstore.controller;
 
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -25,6 +23,7 @@ import com.chandrashekhar.clothingstore.model.Product;
 import com.chandrashekhar.clothingstore.repository.OrderItemRepository;
 import com.chandrashekhar.clothingstore.repository.OrderRepository;
 import com.chandrashekhar.clothingstore.repository.ProductRepository;
+import com.chandrashekhar.clothingstore.service.ImageUploadService;
 
 
 
@@ -36,6 +35,9 @@ public class AdminController {
 	private final ProductRepository productRepository;
 	private final OrderRepository orderRepository;
 	private final OrderItemRepository orderItemRepository;
+	
+	@Autowired
+	private ImageUploadService imageUploadService;
 
 	
 	
@@ -55,21 +57,16 @@ public class AdminController {
 	
 	@PostMapping("/add-product")
 	public String addProduct(@ModelAttribute Product product,
-	                         @RequestParam("image") MultipartFile file) throws IOException {
+	                         @RequestParam("image") MultipartFile file) {
 
-	    String fileName = file.getOriginalFilename();
+	    String imageUrl = imageUploadService.uploadImage(file);
 
-	    Path path = Paths.get("uploads/" + fileName);
-
-	    Files.write(path, file.getBytes());
-
-	    product.setImageUrl("/uploads/" + fileName);
+	    product.setImageUrl(imageUrl);
 
 	    productRepository.save(product);
 
 	    return "redirect:/admin/dashboard";
 	}
-	
 	@GetMapping("/delete/{id}")
 	public String deleteProduct(@PathVariable Long id) {
 		

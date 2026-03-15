@@ -8,15 +8,24 @@
 
 <style>
 
+body{
+background:#f8f9fa;
+}
+
 .product-img{
 height:450px;
 object-fit:cover;
-border-radius:10px;
+border-radius:12px;
 }
 
 .review-star{
 color:gold;
 font-size:18px;
+}
+
+.review-card{
+background:white;
+border-radius:10px;
 }
 
 </style>
@@ -27,19 +36,19 @@ font-size:18px;
 
 <div class="container mt-5">
 
-<div class="row">
+<div class="row g-5">
 
-<!-- LEFT SIDE IMAGE -->
+<!-- ================= PRODUCT IMAGE ================= -->
 
 <div class="col-md-6 text-center">
 
-<img th:src="${product.imageUrl != null} ? @{${product.imageUrl}} : @{/images/default.png}"
+<img th:src="${product.imageUrl} != null ? ${product.imageUrl} : '/images/default.png'"
      class="img-fluid product-img shadow">
 
 </div>
 
 
-<!-- RIGHT SIDE DETAILS -->
+<!-- ================= PRODUCT DETAILS ================= -->
 
 <div class="col-md-6">
 
@@ -64,7 +73,7 @@ Stock :
 </p>
 
 
-<!-- ADD TO CART -->
+<!-- ================= ADD TO CART ================= -->
 
 <form th:action="@{/cart/add}" method="post" class="mt-4">
 
@@ -77,9 +86,14 @@ Add to Cart
 
 </form>
 
+<a href="/" class="btn btn-secondary mt-3">
+Back to Store
+</a>
+
 </div>
 
 </div>
+
 
 <!-- ================= RATING SECTION ================= -->
 
@@ -142,7 +156,7 @@ Submit Review
 
 <h4 class="mt-4">Customer Reviews</h4>
 
-<div th:each="r : ${reviews}" class="border rounded p-3 mb-3">
+<div th:each="r : ${reviews}" class="review-card border p-3 mb-3 shadow-sm">
 
 <strong th:text="${r.userName}"></strong>
 
@@ -153,11 +167,6 @@ Submit Review
 <p th:text="${r.comment}"></p>
 
 </div>
-
-
-<a href="/" class="btn btn-secondary mt-4">
-Back to Store
-</a>
 
 </div>
 
