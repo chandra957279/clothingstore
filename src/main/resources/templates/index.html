@@ -52,6 +52,13 @@ color:white;
 padding:30px 0;
 margin-top:50px;
 }
+.category-icon img{
+transition:0.3s;
+}
+
+.category-icon img:hover{
+transform:scale(1.1);
+}
 
 </style>
 
@@ -134,32 +141,60 @@ class="d-block w-100 img-fluid" style="max-height:350px;object-fit:cover;">
 
 <!-- CATEGORY SECTION -->
 
-<div class="container text-center mb-5">
+<div class="container text-center mb-4">
 
-<div class="row g-3 category-icon">
+<div class="row category-icon">
 
 <div class="col-6 col-md-3">
+
+<a th:href="@{/?category=T-Shirts}">
+
 <img src="https://www.thewalkdeal.com/cdn/shop/products/Superman.jpg?v=1640673445"
 class="img-fluid rounded">
+
 <p class="mt-2 fw-semibold">T-Shirts</p>
+
+</a>
+
 </div>
 
 <div class="col-6 col-md-3">
+
+<a th:href="@{/?category=Shirts}">
+
 <img src="https://zabolo.in/cdn/shop/files/1_4d9e2629-cf2d-4e95-9a80-3a0fb15b72d5.jpg?v=1726569871"
 class="img-fluid rounded">
+
 <p class="mt-2 fw-semibold">Shirts</p>
+
+</a>
+
 </div>
 
 <div class="col-6 col-md-3">
+
+<a th:href="@{/?category=Jeans}">
+
 <img src="https://d1pdzcnm6xgxlz.cloudfront.net/bottoms/8905074941230-9.jpg"
 class="img-fluid rounded">
+
 <p class="mt-2 fw-semibold">Jeans</p>
+
+</a>
+
 </div>
 
 <div class="col-6 col-md-3">
+
+<a th:href="@{/?category=Kurtas}">
+
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo6yRI28jPWgHu2Z9HTSpSRhjlNxBelOAg-A&s"
 class="img-fluid rounded">
+
 <p class="mt-2 fw-semibold">Kurtas</p>
+
+</a>
+
 </div>
 
 </div>

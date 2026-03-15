@@ -2,6 +2,7 @@ package com.chandrashekhar.clothingstore.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import com.chandrashekhar.clothingstore.model.User;
 import com.chandrashekhar.clothingstore.repository.ProductRepository;
 import com.chandrashekhar.clothingstore.repository.ReviewRepository;
 import com.chandrashekhar.clothingstore.repository.UserRepository;
+import com.chandrashekhar.clothingstore.service.ProductService;
 
 @Controller
 public class HomeController {
@@ -23,6 +25,9 @@ public class HomeController {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    
+    @Autowired
+    private ProductService productService;
 
     public HomeController(ProductRepository productRepository, UserRepository userRepository, ReviewRepository reviewRepository) {
         this.productRepository = productRepository;
