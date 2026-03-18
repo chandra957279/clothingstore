@@ -33,6 +33,19 @@ public class User {
 	
 	private String role;
 	
+	@Column(length = 15)
+	private String mobileNumber;
+	
+	private String addressLine1;
+	
+	private String addressLine2;
+	
+	private String city;
+	
+	private String state;
+	
+	private String pincode;
+	
 	@Column(name = "reset_token")
 	private String resetToken;
 	

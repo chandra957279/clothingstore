@@ -8,7 +8,7 @@ import com.chandrashekhar.clothingstore.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-	List<Product> findByCategory(String category);
+	List<Product> findByCategoryIgnoreCase(String category);
 	
 	List<Product> findByNameContainingIgnoreCase(String keyword);
 	

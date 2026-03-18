@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.chandrashekhar.clothingstore.model.Product;
 import com.chandrashekhar.clothingstore.model.Review;
 import com.chandrashekhar.clothingstore.model.User;
+import com.chandrashekhar.clothingstore.repository.CartRepository;
 import com.chandrashekhar.clothingstore.repository.ProductRepository;
 import com.chandrashekhar.clothingstore.repository.ReviewRepository;
 import com.chandrashekhar.clothingstore.repository.UserRepository;
@@ -28,6 +29,9 @@ public class HomeController {
     
     @Autowired
     private ProductService productService;
+    
+    @Autowired
+    private CartRepository cartRepository;
 
     public HomeController(ProductRepository productRepository, UserRepository userRepository, ReviewRepository reviewRepository) {
         this.productRepository = productRepository;
@@ -35,7 +39,7 @@ public class HomeController {
         this.reviewRepository = reviewRepository;
     }
 
-    // ================= HOME PAGE =================
+
 
     @GetMapping("/")
     public String home(Model model,
@@ -59,9 +63,9 @@ public class HomeController {
 
         }
         else if(category != null && !category.isEmpty()) {
-
+        	System.out.println("Category = " + category);
             products = productRepository
-                    .findByCategory(category);
+                    .findByCategoryIgnoreCase(category);
 
         }
         else {
@@ -83,10 +87,17 @@ public class HomeController {
 
             User user = userRepository.findByEmail(email).orElse(null);
 
-            if(user != null) {
+            if(user != null){
+
                 model.addAttribute("loggedInUser", user);
+
+                int cartCount = cartRepository.countByUserId(user.getId());
+
+                model.addAttribute("cartCount", cartCount);
             }
         }
+        
+        
 
         return "index";
     }
