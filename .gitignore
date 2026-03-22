@@ -1,29 +1,8 @@
-# ===============================
-# BUILD FILES
-# ===============================
+HELP.md
 target/
-bin/
-build/
-out/
-
-# ===============================
-# MAVEN
-# ===============================
 .mvn/wrapper/maven-wrapper.jar
-
-# ===============================
-# LOG FILES
-# ===============================
-*.log
-
-# ===============================
-# ENV FILES
-# ===============================
-.env
-
-# ===============================
-# IDE FILES
-# ===============================
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -34,14 +13,11 @@ out/
 .springBeans
 .sts4-cache
 
-### IntelliJ ###
+### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-
-### VS Code ###
-.vscode/
 
 ### NetBeans ###
 /nbproject/private/
@@ -49,14 +25,9 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# ===============================
-# OS FILES
-# ===============================
-.DS_Store
-Thumbs.db
-
-# ===============================
-# TOMCAT (IMPORTANT 🔥)
-# ===============================
-apache-tomcat-*
+### VS Code ###
+.vscode/
