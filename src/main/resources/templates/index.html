@@ -3,7 +3,6 @@
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-
 <title>Clothing Store</title>
 
 <meta charset="UTF-8">
@@ -13,98 +12,121 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <style>
 
-.product-img{
-height:220px;
-object-fit:cover;
+/* ---------- GLOBAL ---------- */
+body{
+background:#f1f3f6;
 }
 
-.product-title{
-font-size:16px;
-font-weight:600;
-min-height:45px;
-}
-
-.description{
-display:-webkit-box;
--webkit-line-clamp:2;
--webkit-box-orient:vertical;
-overflow:hidden;
-}
-
+/* ---------- CARD ---------- */
 .card{
 border:none;
+border-radius:12px;
+overflow:hidden;
 transition:0.3s;
+background:#fff;
 }
 
 .card:hover{
-transform:scale(1.03);
-box-shadow:0px 10px 25px rgba(0,0,0,0.15);
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
+/* ---------- IMAGE ---------- */
+.image-container{
+width:100%;
+height:250px;
+overflow:hidden;
+background:#f8f9fa;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.card-img-top{
+width:100%;
+height:100%;
+object-fit:cover;
+transition:0.3s;
+}
+
+.card:hover .card-img-top{
+transform:scale(1.05);
+}
+
+/* ---------- RESPONSIVE IMAGE ---------- */
+@media(max-width:576px){
+.image-container{
+height:180px;
+}
+}
+
+@media(min-width:577px) and (max-width:992px){
+.image-container{
+height:220px;
+}
+}
+
+@media(min-width:993px){
+.image-container{
+height:260px;
+}
+}
+
+/* ---------- TEXT ---------- */
+.product-title{
+font-size:15px;
+font-weight:600;
+min-height:40px;
+}
+
+.price{
+font-weight:700;
+color:#388e3c;
+}
+
+.old-price{
+text-decoration:line-through;
+color:#777;
+font-size:14px;
+}
+
+.discount{
+color:red;
+font-size:14px;
+}
+
+/* ---------- BUTTON ---------- */
+.btn-primary{
+border-radius:8px;
+font-size:14px;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar-brand{
+font-weight:bold;
+font-size:20px;
+}
+
+/* ---------- CATEGORY ---------- */
 .category-icon img{
 height:80px;
 object-fit:cover;
-}
-
-footer{
-background:#212529;
-color:white;
-padding:30px 0;
-margin-top:50px;
-}
-.category-icon img{
 transition:0.3s;
+border-radius:10px;
 }
 
 .category-icon img:hover{
 transform:scale(1.1);
 }
 
-.navbar .btn{
-border-radius:8px;
-padding:6px 12px;
+/* ---------- FOOTER ---------- */
+footer{
+background:#212529;
+color:white;
+padding:30px 0;
+margin-top:50px;
 }
 
-.dropdown-menu{
-border-radius:10px;
-min-width:220px;
-}
-
-.dropdown-item:hover{
-background:#f1f3f6;
-}
-
-.dropdown-item:hover{
-background:#f1f3f6;
-}
-
-.navbar-brand{
-font-size:22px;
-letter-spacing:1px;
-}
-
-@media(max-width:768px){
-
-.product-img{
-height:180px;
-}
-
-/* SLIDER SIZE CONTROL */
-
-
-/* Mobile */
-@media(max-width:768px){
-.slider-img{
-height:180px;
-}
-}
-
-/* Tablet */
-@media(min-width:769px) and (max-width:1024px){
-.slider-img{
-height:250px;
-}
-}
 </style>
 
 </head>
@@ -112,350 +134,112 @@ height:250px;
 <body>
 
 <!-- NAVBAR -->
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-
 <div class="container">
 
-<a class="navbar-brand fw-bold" href="/">
-Clothing Store
-</a>
+<a class="navbar-brand" href="/">Clothing Store</a>
 
-<button class="navbar-toggler"
-type="button"
-data-bs-toggle="collapse"
-data-bs-target="#navbarNav">
-
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
 <span class="navbar-toggler-icon"></span>
-
 </button>
 
-<div class="collapse navbar-collapse" id="navbarNav">
+<div class="collapse navbar-collapse" id="nav">
 
-<ul class="navbar-nav ms-auto align-items-lg-center gap-2">
+<ul class="navbar-nav ms-auto gap-2">
 
-<!-- LOGIN -->
-
-<li class="nav-item" sec:authorize="!isAuthenticated()">
-<a class="btn btn-outline-light btn-sm"
-href="/login">
-Login
-</a>
+<li sec:authorize="!isAuthenticated()">
+<a href="/login" class="btn btn-outline-light btn-sm">Login</a>
 </li>
 
-<!-- SIGNUP -->
-
-<li class="nav-item" sec:authorize="!isAuthenticated()">
-<a class="btn btn-outline-light btn-sm"
-href="/register">
-Signup
-</a>
+<li sec:authorize="!isAuthenticated()">
+<a href="/signup" class="btn btn-outline-light btn-sm">Signup</a>
 </li>
 
-<!-- CART -->
-
-<li class="nav-item" sec:authorize="isAuthenticated()">
-<a class="btn btn-outline-light btn-sm"
-href="/cart/view">
-🛒 Cart
-</a>
+<li sec:authorize="isAuthenticated()">
+<a href="/cart/view" class="btn btn-outline-light btn-sm">🛒 Cart</a>
 </li>
 
-<!-- ORDERS -->
-
-<li class="nav-item" sec:authorize="isAuthenticated()">
-<a class="btn btn-outline-light btn-sm"
-href="/orders">
-📦 My Orders
-</a>
-</li>
-
-<!-- ACCOUNT DROPDOWN -->
-
-<li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-
-<a class="nav-link dropdown-toggle d-flex align-items-center"
-href="#"
-data-bs-toggle="dropdown">
-
-<span class="me-1">👤</span>
-
-<span class="d-none d-md-inline">
-Account
-</span>
-
-</a>
-
-<ul class="dropdown-menu dropdown-menu-end shadow">
-
-<li class="dropdown-header fw-bold">
-Your Account
-</li>
-
-<li>
-<a class="dropdown-item" href="/profile">
-👤 My Profile
-</a>
-</li>
-
-<li>
-<a class="dropdown-item" href="/orders">
-📦 Orders
-</a>
-</li>
-
-<li>
-<a class="dropdown-item" href="/wishlist">
-❤ Wishlist
-</a>
-</li>
-
-<li>
-<a class="dropdown-item" href="/addresses">
-📍 Saved Addresses
-</a>
-</li>
-
-<li>
-<a class="dropdown-item" href="/coupons">
-🏷 Coupons
-</a>
-</li>
-
-<li>
-<hr class="dropdown-divider">
-</li>
-
-<li>
-<a class="dropdown-item text-danger" href="/logout">
-Logout
-</a>
-</li>
-
-</ul>
-
+<li sec:authorize="isAuthenticated()">
+<a href="/orders" class="btn btn-outline-light btn-sm">📦 Orders</a>
 </li>
 
 </ul>
 
 </div>
-
 </div>
-
 </nav>
-<div id="bannerCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-
-<div class="carousel-inner">
-
-<div class="carousel-item active">
-<img src="/images/357.jpg"
-class="d-block w-100 img-fluid" style="max-height:350px;object-fit:cover;">
-</div>
-
-<div class="carousel-item">
-<img src="/images/slider-4.jpg"
-class="d-block w-100 img-fluid" style="max-height:350px;object-fit:cover;">
-</div>
-
-<div class="carousel-item">
-<img src="/images/slider-7.jpg"
-class="d-block w-100 img-fluid" style="max-height:350px;object-fit:cover;">
-</div>
-
-</div>
-
-<button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-<span class="carousel-control-prev-icon"></span>
-</button>
-
-<button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-<span class="carousel-control-next-icon"></span>
-</button>
-
-</div>
-
-<!-- CATEGORY SECTION -->
-
-<div class="container text-center mb-4">
-
-<div class="row category-icon g-3">
-
-<div class="col-6 col-md-3 ">
-
-<a th:href="@{/?category=T-Shirt}">
-
-<img src="https://www.thewalkdeal.com/cdn/shop/products/Superman.jpg?v=1640673445"
-class="img-fluid rounded">
-
-<p class="mt-2 fw-semibold">T-Shirts</p>
-
-</a>
-
-</div>
-
-<div class="col-6 col-md-3">
-
-<a th:href="@{/?category=Shirt}">
-
-<img src="https://zabolo.in/cdn/shop/files/1_4d9e2629-cf2d-4e95-9a80-3a0fb15b72d5.jpg?v=1726569871"
-class="img-fluid rounded">
-
-<p class="mt-2 fw-semibold">Shirts</p>
-
-</a>
-
-</div>
-
-<div class="col-6 col-md-3">
-
-<a th:href="@{/?category=Jeans}">
-
-<img src="https://d1pdzcnm6xgxlz.cloudfront.net/bottoms/8905074941230-9.jpg"
-class="img-fluid rounded">
-
-<p class="mt-2 fw-semibold">Jeans</p>
-
-</a>
-
-</div>
-
-<div class="col-6 col-md-3">
-
-<a th:href="@{/?category=Kurta}">
-
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo6yRI28jPWgHu2Z9HTSpSRhjlNxBelOAg-A&s"
-class="img-fluid rounded">
-
-<p class="mt-2 fw-semibold">Kurtas</p>
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-<div class="container mb-3">
-
-<div th:if="${category != null}" class="d-flex justify-content-between align-items-center">
-
-<h5 class="fw-bold">
-Showing Category:
-<span class="text-primary" th:text="${category}"></span>
-</h5>
-
-<a href="/" class="btn btn-outline-dark btn-sm">
-← Back to All Products
-</a>
-
-</div>
-
-</div>
 
 <!-- PRODUCTS -->
+<div class="container mt-4">
 
-<div class="container">
+<h4 class="mb-3 fw-bold">🔥 Trending Products</h4>
 
-<h3 class="fw-bold mb-4">🔥 Trending Products</h3>
+<div class="row g-3">
 
-<div class="row">
+<div class="col-6 col-md-4 col-lg-3" th:each="p : ${products}">
 
-<div class="col-6 col-md-4 col-lg-3 mb-4" th:each="p : ${products}">
-
-<div class="card h-100 shadow-sm">
+<div class="card h-100">
 
 <a th:href="@{/product/{id}(id=${p.id})}">
 
+<div class="image-container">
 <img th:src="${p.imageUrl != null} ? @{${p.imageUrl}} : @{/images/default.png}"
-class="card-img-top img-fluid"
-style="height:220px; object-fit:cover;">
+class="card-img-top">
+</div>
 
 </a>
 
 <div class="card-body d-flex flex-column">
 
-<!-- Product Name -->
-
-<h6 class="fw-semibold text-truncate">
-
+<h6 class="product-title">
 <a th:href="@{/product/{id}(id=${p.id})}"
-class="text-decoration-none text-dark"
+class="text-dark text-decoration-none"
 th:text="${p.name}">
 </a>
-
 </h6>
 
 <!-- Rating -->
-
 <div class="mb-1">
-
 <span class="badge bg-success">
-
 <span th:text="${p.rating} ?: 4.2"></span> ⭐
-
 </span>
-
 <span class="text-muted small ms-1">
-
 (<span th:text="${p.reviewCount} ?: 120"></span>)
-
 </span>
-
 </div>
 
 <!-- Price -->
-
-<div class="mb-1">
-
-<span class="fw-bold text-success">
-
-₹ <span th:text="${p.price}"></span>
-
-</span>
-
-<span class="text-muted text-decoration-line-through ms-2">
-
+<div>
+<span class="price">₹ <span th:text="${p.price}"></span></span>
+<span class="old-price ms-2">
 ₹ <span th:text="${p.originalPrice} ?: ${p.price + 300}"></span>
-
 </span>
-
-<span class="text-danger ms-1">
-
+<span class="discount ms-1">
 <span th:text="${p.discount} ?: 30"></span>% off
-
 </span>
-
 </div>
 
 <!-- Offer -->
-
-<div class="small text-success">
-
+<div class="text-success small">
 <span th:text="${p.offer} ?: 'Bank Offer Available'"></span>
-
 </div>
 
 <!-- Delivery -->
-
-<div class="small text-muted">
-
+<div class="text-muted small">
 Delivery by <b>21 Mar</b>
-
 </div>
 
-<!-- Add to Cart -->
-
+<!-- BUTTON -->
 <div class="mt-auto pt-2">
 
-<form th:action="@{/cart/add}" method="post" sec:authorize="hasRole('USER')">
+<form th:action="@{/cart/add}" method="post"
+sec:authorize="hasRole('USER')">
 
 <input type="hidden" name="productId" th:value="${p.id}"/>
 
-<button class="btn btn-primary w-100 btn-sm"
+<button class="btn btn-primary w-100"
 th:disabled="${p.stock == 0}">
-
 Add to Cart
-
 </button>
 
 </form>
@@ -469,55 +253,15 @@ Add to Cart
 </div>
 
 </div>
-
 </div>
 
 <!-- FOOTER -->
-
 <footer>
-
-<div class="container">
-
-<div class="row text-center text-md-start">
-
-<div class="col-md-4 mb-3">
-
+<div class="container text-center">
 <h5>Clothing Store</h5>
-
-<p>Your fashion destination for trending styles.</p>
-
+<p>Trendy fashion for everyone</p>
+<p>© 2026 All Rights Reserved</p>
 </div>
-
-<div class="col-md-4 mb-3">
-
-<h5>Quick Links</h5>
-
-<ul class="list-unstyled">
-
-<li><a href="/" class="text-white">Home</a></li>
-<li><a href="/orders" class="text-white">Orders</a></li>
-<li><a href="/cart/view" class="text-white">Cart</a></li>
-
-</ul>
-
-</div>
-
-<div class="col-md-4">
-
-<h5>Contact</h5>
-
-<p>Email: support@clothingstore.com</p>
-
-</div>
-
-</div>
-
-<hr>
-
-<p class="text-center mb-0">© 2026 Clothing Store</p>
-
-</div>
-
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
