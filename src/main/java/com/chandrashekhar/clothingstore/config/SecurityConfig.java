@@ -11,42 +11,38 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-	 @Bean
-	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-	        http
-	            .csrf(csrf -> csrf.disable())
-	            .authorizeHttpRequests(auth -> auth
-	                .requestMatchers(
-	                        "/",
-	                        "/signup",
-	                        "/login",
-	                        "/forgot-password",
-	                        "/reset-password/**",
-	                        "/css/**",
-	                        "/js/**",
-	                        "/images/**",
-	                        "/payment/**",
-	                        "/create-order",
-	                        "/payment/process",
-	                        "/payment/cod/**",
-	                        "/payment/online/**"
-	                ).permitAll()
-	                .requestMatchers("/admin/**").hasRole("ADMIN")
-	                .anyRequest().authenticated()
-	            )
-	            .formLogin(login -> login
-	                .loginPage("/login")
-	                .defaultSuccessUrl("/")
-	                .permitAll()
-	            )
-	            .logout(logout -> logout.permitAll());
+	    http
+	        .csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers(
+	                    "/",
+	                    "/signup",
+	                    "/login",
+	                    "/forgot-password",
+	                    "/reset-password/**",
+	                    "/css/**",
+	                    "/js/**",
+	                    "/images/**"
+	            ).permitAll()
+	            .requestMatchers("/admin/**").hasRole("ADMIN")
+	            .anyRequest().authenticated()
+	        )
+	        .formLogin(login -> login
+	            .loginPage("/login")
+	            .defaultSuccessUrl("/admin/dashboard", true)  // ✅ FIXED
+	            .permitAll()
+	        )
+	        .logout(logout -> logout.permitAll());
 
-	        return http.build();
-	    }
-	
+	    return http.build();
+	}
+
+	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	    return new BCryptPasswordEncoder();
 	}
 	  @Bean
 	    public AuthenticationManager authenticationManager(
